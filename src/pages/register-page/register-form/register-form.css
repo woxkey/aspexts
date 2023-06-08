@@ -1,0 +1,21 @@
+.register-form {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.register-form__subtitle {
+    color: rgb(180, 184, 193);
+
+}
+
+.register-form__form {
+    max-width: 360px;
+
+}

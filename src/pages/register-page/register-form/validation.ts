@@ -1,0 +1,31 @@
+const REQUIRED_FIELD = "Обязательно для заполнения"
+
+export const loginValidation = {
+    required: REQUIRED_FIELD,
+    validate: (value: string) => {
+        if (value.match(/[а-яА-Я]/)) {
+            return "Логин не может содежать русские буквы"
+        }
+        return true;
+    }
+}
+
+export const passwordValidation = {
+    required: REQUIRED_FIELD,
+    validate: (value: string) => {
+        if (value.length < 6) {
+            return "Пароль должен быть длиннее 6-ти символов"
+        }
+        return true;
+    }
+}
+
+export const phoneValidation = {
+    required: REQUIRED_FIELD,
+    validate: (value: string) => {
+        if (value.length < 1) {
+            return "Телефон должен быть длиннее одного символа"
+        }
+        return true;
+    }
+}

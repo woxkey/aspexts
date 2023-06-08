@@ -3,6 +3,7 @@ import {AuthPage} from "./pages/auth-page";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Layout from "./components/Layout/Layout.tsx";
 import {Reservations} from "./pages/reservation-page";
+import {RegisterPage} from "./pages/register-page";
 
 const App: React.FC = (): React.ReactElement => {
 
@@ -13,6 +14,7 @@ const App: React.FC = (): React.ReactElement => {
                     <Route index element={<Reservations />} />
                 </Route>
                 <Route path="/login" element={<AuthPage />} />
+                <Route path="/register" element={<RegisterPage />} />
 
             </Routes>
         </BrowserRouter>

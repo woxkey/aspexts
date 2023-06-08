@@ -1,48 +1,42 @@
 import React from 'react';
 import {Typography} from "@mui/material";
-import './auth-form.css';
+import './register-form.css';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Controller, SubmitHandler, useForm, useFormState} from "react-hook-form";
-import {loginValidation, passwordValidation} from "./validation.ts";
+import {loginValidation, passwordValidation, phoneValidation} from "./validation.ts";
 import {useNavigate} from "react-router-dom";
 
-interface ISignInForm {
+interface IRegisterForm {
     login: string;
     password: string;
+    phone: string;
 }
 
-export const AuthForm: React.FC = (): React.ReactElement => {
+export const RegisterForm: React.FC = (): React.ReactElement => {
     const navigate = useNavigate();
-    const {handleSubmit, control} = useForm<ISignInForm>({
+    const {handleSubmit, control} = useForm<IRegisterForm>({
         defaultValues: {
-            login: '', password: ''
+            login: '', password: '', phone: ''
         }
     });
 
     const {errors} = useFormState({control});
-    const onSubmit: SubmitHandler<ISignInForm> = (data) => {
-        const user = localStorage.getItem("user");
-        if (!user) {
-            navigate("/register")
-            return;
-        }
-        if (data.login === JSON.parse(user).login && data.password === JSON.parse(user).password) {
-            navigate("/")
-        }
+    const onSubmit: SubmitHandler<IRegisterForm> = (data) => {
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate("/login");
+    }
 
-    };
-
-    return (<div className='auth-form'>
+    return (<div className='register-form'>
         <Typography variant="h4" component="div">
-            Войдите
+            Зарегистрироваться
         </Typography>
-        <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="register-form__form" onSubmit={handleSubmit(onSubmit)}>
             <Controller control={control} rules={loginValidation} name="login" render={({field}) => (<TextField
                     label="Логин"
                     size="small"
                     margin="normal"
-                    className="auth-form__input"
+                    className="register-form__input"
                     fullWidth
                     onChange={(e) => field.onChange(e)}
                     value={field.value}
@@ -53,7 +47,7 @@ export const AuthForm: React.FC = (): React.ReactElement => {
                     label="Пароль"
                     size="small"
                     margin="normal"
-                    className="auth-form__input"
+                    className="register-form__input"
                     fullWidth
                     type="password"
                     onChange={(e) => field.onChange(e)}
@@ -61,20 +55,26 @@ export const AuthForm: React.FC = (): React.ReactElement => {
                     error={!!errors.password?.message}
                     helperText={errors.password?.message}
                 />)}/>
+            <Controller control={control} rules={phoneValidation} name="phone" render={({field}) => (<TextField
+                    label="Номер телефона"
+                    size="small"
+                    margin="normal"
+                    className="register-form__input"
+                    fullWidth
+                    type="tel"
+                    onChange={(e) => field.onChange(e)}
+                    value={field.value}
+                    error={!!errors.phone?.message}
+                    helperText={errors.phone?.message}
+                />)}/>
 
 
             <Button type="submit" variant="contained" fullWidth disableElevation sx={{
                 marginTop: 2, marginBottom: 1
             }}>
-                Войти
+                Создать аккаунт
             </Button>
 
-            <Typography onClick={() => navigate("/register")} variant="subtitle1" component="div" gutterBottom
-                        className="auth-form__subtitle" sx={{
-                cursor: "pointer"
-            }}>
-                или зарегистрируйтесь
-            </Typography>
 
         </form>
     </div>);
